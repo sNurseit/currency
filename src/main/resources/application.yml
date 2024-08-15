@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  data:
+    mongodb:
+      database: exchange_rate
+  application:
+    name: exchange_rate
+  datasource:
+    url: jdbc:postgresql://localhost:5434/exchange_rate
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+integration:
+  url: https://api.currencyfreaks.com/v2.0
+  api_key: 1eb879e58cae44fbb448feca79b93402
+
+#
