@@ -18,6 +18,5 @@ spring:
 
 integration:
   url: https://nationalbank.kz/rss/get_rates.cfm
-  api_key: 1eb879e58cae44fbb448feca79b93402
 
 #https://api.currencyfreaks.com/v2.0/rates/latest

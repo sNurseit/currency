@@ -1,12 +1,9 @@
 package kz.diploma.exchange_rate.service.impl;
 
-import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 import kz.diploma.exchange_rate.dto.Rate;
 import kz.diploma.exchange_rate.dto.Rates;
 import kz.diploma.exchange_rate.entity.RateEntity;
-import kz.diploma.exchange_rate.mapper.MapToStringConverter;
 import kz.diploma.exchange_rate.service.HelperService;
 import kz.diploma.exchange_rate.service.IntegrationService;
 import kz.diploma.exchange_rate.service.RateService;
