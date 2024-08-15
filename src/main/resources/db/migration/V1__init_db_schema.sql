@@ -1,7 +1,5 @@
-CREATE TABLE IF NOT EXISTS currency
+CREATE TABLE IF NOT EXISTS rate_history
 (
-    id bigserial PRIMARY KEY NOT NULL,
-    code VARCHAR(4) NOT NULL,
-    createdDate timestamp without time zone NOT NULL,
-    rates TEXT NOT NULL
+    created_date DATE PRIMARY KEY NOT NULL,
+    rate TEXT NOT NULL
 );
