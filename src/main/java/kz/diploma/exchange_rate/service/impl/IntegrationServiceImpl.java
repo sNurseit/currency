@@ -8,6 +8,7 @@ import kz.diploma.exchange_rate.service.HelperService;
 import kz.diploma.exchange_rate.service.IntegrationService;
 import kz.diploma.exchange_rate.service.RateService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,7 @@ import static kz.diploma.exchange_rate.util.Constants.*;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class IntegrationServiceImpl implements IntegrationService {
 
