@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static kz.diploma.exchange_rate.util.Constants.*;
 
@@ -77,16 +78,9 @@ public class IntegrationServiceImpl implements IntegrationService {
     }
 
     private Map<String, Rate> filterRelevantRates(List<Rate> rateList) {
-        Map<String, Rate> relevantRates = new HashMap<>();
-
-        for (Rate rate : rateList) {
-            String title = rate.getTitle();
-            if (USD.equals(title) || RUB.equals(title)) {
-                relevantRates.put(title, rate);
-            }
-        }
-
-        return relevantRates;
+        return rateList.stream()
+                .filter(rate -> USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()))
+                .collect(Collectors.toMap(Rate::getTitle, rate -> rate));
     }
 
 }
