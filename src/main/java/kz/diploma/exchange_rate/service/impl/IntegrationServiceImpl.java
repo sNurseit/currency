@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,7 +50,7 @@ public class IntegrationServiceImpl implements IntegrationService {
     }
 
     /**
-     * Создает URL-адрес запроса API, используя указанную дату, и отправляет запрос GET для получения курсов.
+     * Создает URL-адрес запроса API, используя указанную дату, и отправляет GET запрос для получения курсов.
      *
      * @param  formattedDate дата, на которую запрашиваются курсы валют, в формате строки (например, "дд.ММ.гггг").
      * @return  ответ в формате JSON в виде строки из API, содержащей обменные курсы на указанную дату.
@@ -77,6 +76,11 @@ public class IntegrationServiceImpl implements IntegrationService {
 
     }
 
+    /**
+     * Фильтрует предоставленный список курсов валют, чтобы извлечь только нужные данные ("USD" или "RUB").
+     * @param rateList Список курсов валют, которые нужно отфильтровать.
+     * @return Map, отфильтрованные курсы валют ("USD" или "RUB").
+     */
     private Map<String, Rate> filterRelevantRates(List<Rate> rateList) {
         return rateList.stream()
                 .filter(rate -> USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()))
