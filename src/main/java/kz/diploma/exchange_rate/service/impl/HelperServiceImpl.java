@@ -16,10 +16,10 @@ import java.time.format.DateTimeFormatter;
 public class HelperServiceImpl implements HelperService {
 
     @Override
-    public <T> T unmarshalData(String response, Class<T> responseType) throws JAXBException {
+    public <T> T unmarshalData(String xmlString, Class<T> responseType) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(responseType);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        return responseType.cast(unmarshaller.unmarshal(new StringReader(response)));
+        return responseType.cast(unmarshaller.unmarshal(new StringReader(xmlString)));
     }
 
     @Override
