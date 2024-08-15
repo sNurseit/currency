@@ -41,8 +41,8 @@ public class IntegrationServiceImpl implements IntegrationService {
             String response = fetchRatesFromApi(formattedDate);
             return parseAndSaveRates(response, targetDate);
         } catch (JAXBException e) {
-            e.printStackTrace();
-            return null;
+            log.error("Error occurred while fetching exchange rates: {}", e.getMessage(), e);
+            throw new RuntimeException();
         }
     }
 
