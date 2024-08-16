@@ -1,5 +1,6 @@
 package kz.diploma.exchange_rate.controller;
 
+import kz.diploma.exchange_rate.dto.Rate;
 import kz.diploma.exchange_rate.service.RateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class RateController {
     @GetMapping("/top")
     public ResponseEntity<?> findTop (@RequestParam(name = "count", defaultValue = "10") Integer count){
         return ResponseEntity.ok(rateService.findTop(count));
+    }
+
+    @PutMapping("/{date}")
+    public ResponseEntity<?> update(@PathVariable("date") LocalDate date, @RequestBody Rate rate){
+        return ResponseEntity.ok(rateService.updateByDate(date, rate));
     }
 
 }
