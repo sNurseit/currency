@@ -36,6 +36,10 @@ public class IntegrationServiceImpl implements IntegrationService {
 
     @Override
     public List<RateEntity> getExchangeRates(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isBefore(MIN_DATE) || endDate.isBefore(MIN_DATE)) {
+            throw new IllegalArgumentException(OUT_OF_MIN_VALUE);
+        }
+
         LocalDate targetStartDate = startDate != null ? startDate : LocalDate.now();
         LocalDate targetEndDate = endDate != null ? endDate : LocalDate.now().plusDays(1);
 

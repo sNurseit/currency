@@ -35,10 +35,10 @@ public class IntegrationController {
     })
     @GetMapping
     public ResponseEntity<List<RateEntity>> create(
-            @Parameter(description = "Start date in the format yyyy-MM-dd", example = "2024-08-01")
+            @Parameter(description = "Start date in the format yyyy-MM-dd (must not be before 2024-07-01)", example = "2024-08-01")
             @RequestParam(name = "startDate", required = false) LocalDate startDate,
 
-            @Parameter(description = "End date in the format yyyy-MM-dd", example = "2024-08-10")
+            @Parameter(description = "End date in the format yyyy-MM-dd (must not be before 2024-07-01)", example = "2024-08-10")
             @RequestParam(name = "endDate", required = false) LocalDate endDate
     ){
         return ResponseEntity.ok(integrationService.getExchangeRates(startDate, endDate));
