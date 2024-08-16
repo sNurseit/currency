@@ -21,7 +21,7 @@ import java.time.format.DateTimeParseException;
 @RestController
 @RequestMapping("/api/rate")
 @RequiredArgsConstructor
-@Tag(name = "Rate in database", description = "Operations related to exchange rates in the database")
+@Tag(name = "Rate Controller", description = "Operations related to exchange rates in the database")
 
 public class RateController {
     private final RateService rateService;
@@ -78,6 +78,11 @@ public class RateController {
     @PutMapping("/{date}")
     public ResponseEntity<?> update(@PathVariable("date") LocalDate date, @RequestBody Rate rate){
         return ResponseEntity.ok(rateService.updateByDate(date, rate));
+    }
+
+    @DeleteMapping("/{date}")
+    public void deleteByDate(@PathVariable("date") LocalDate date) {
+        rateService.deleteByDate(date);
     }
 
 }

@@ -19,5 +19,7 @@ public interface RateService {
 
     RateEntity updateByDate(LocalDate date, Rate rate);
 
+    void deleteByDate(LocalDate date);
+
     List<RateEntity> findAllByCreatedDateIn (List<LocalDate> dates);
 }

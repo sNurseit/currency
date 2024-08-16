@@ -50,14 +50,23 @@ public class RateServiceImpl implements RateService {
     }
 
     @Override
+    @Transactional
     public RateEntity updateByDate(LocalDate date, Rate rate) {
+        RateEntity rateInDb = repository.findById(date)
+                .orElseThrow( () -> new IllegalArgumentException (DATA_NOT_FOUND_IN_DB));
         if( !(USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()) || EUR.equals(rate.getTitle()) ) ){
             throw new IllegalArgumentException (INCORRECT_RATE_TITLE_ERROR);
         }
-
-        RateEntity rateInDb = repository.findById(date).orElseThrow();
         rateInDb.getRate().put(rate.getTitle(), rate);
         return repository.save(rateInDb);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByDate(LocalDate date) {
+        RateEntity rate = repository.findById(date)
+                .orElseThrow(() -> new IllegalArgumentException (DATA_NOT_FOUND_IN_DB));
+        repository.delete(rate);
     }
 
     @Override
