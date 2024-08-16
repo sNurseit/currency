@@ -57,8 +57,7 @@ public class RateServiceImpl implements RateService {
 
         RateEntity rateInDb = repository.findById(date).orElseThrow();
         rateInDb.getRate().put(rate.getTitle(), rate);
-        repository.save(rateInDb);
-        return null;
+        return repository.save(rateInDb);
     }
 
     @Override
