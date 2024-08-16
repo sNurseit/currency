@@ -5,6 +5,8 @@ For this step, you should have docker
 Pull  the project.
 Then open this project folder on the command prompt.
 Finally, run the "docker-compose up" command.
+
+
 2)
 Pull the project.
 Create the database using pgadmin (or other app tool).
