@@ -13,6 +13,20 @@ import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(value
+            = {IllegalArgumentException.class, IllegalStateException.class})
+    protected ResponseEntity<Object> handleConflict(
+            RuntimeException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return handleExceptionInternal(ex, message,
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
     @ExceptionHandler(value
             = {RuntimeException.class, Exception.class})
     protected ResponseEntity<Object> handle(
