@@ -35,29 +35,45 @@ public class IntegrationServiceImpl implements IntegrationService {
     private String url;
 
     @Override
-    public RateEntity getExchangeRates(LocalDate date) {
-        try {
-            LocalDate targetDate = date != null ? date : LocalDate.now();
-            String formattedDate = helperService.formatLocalDate(targetDate);
+    public List<RateEntity> getExchangeRates(LocalDate startDate, LocalDate endDate) {
+        LocalDate targetStartDate = startDate != null ? startDate : LocalDate.now();
+        LocalDate targetEndDate = endDate != null ? endDate : LocalDate.now().plusDays(1);
 
-            String response = fetchRatesFromApi(formattedDate);
-            return parseAndSaveRates(response, targetDate);
-        } catch (JAXBException e) {
-            log.error("Error occurred while fetching exchange rates: {}", e.getMessage(), e);
-            throw new RuntimeException();
-        }
+        List<LocalDate> listOfDates = helperService.getLocalDateList(targetStartDate, targetEndDate);
+        List<RateEntity> ratesInDb = rateService.findAllByCreatedDateIn(listOfDates);
+        List<LocalDate> datesForRequest = getDatesForRequest(ratesInDb, listOfDates);
+
+        datesForRequest.forEach(
+                date -> {
+                    String formattedDate = helperService.formatLocalDate(date);
+                    String response = fetchRatesFromApi(formattedDate);
+                    try {
+                        ratesInDb.add(parseAndSaveRates(response, date));
+                    } catch (JAXBException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+
+        return ratesInDb;
     }
 
     /**
      * Создает URL-адрес запроса API, используя указанную дату, и отправляет GET запрос для получения курсов.
      *
-     * @param  formattedDate дата, на которую запрашиваются курсы валют, в формате строки (например, "дд.ММ.гггг").
+     * @param  formattedDate дата, на которую запрашиваются курсы валют, в формате строки ("dd.MM.yyyy").
      * @return  ответ в формате JSON в виде строки из API, содержащей обменные курсы на указанную дату.
      */
     private String fetchRatesFromApi(String formattedDate) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam(F_DATE, formattedDate);
         return restTemplate.getForObject(uriBuilder.toUriString(), String.class);
+    }
+
+    private List<LocalDate> getDatesForRequest(List<RateEntity> list, List<LocalDate> dates) {
+        return dates.stream()
+                .filter(date -> list.stream().noneMatch(rateEntity -> rateEntity.getCreatedDate().equals(date)))
+                .collect(Collectors.toList());
     }
 
     private RateEntity parseAndSaveRates(String response, LocalDate date) throws JAXBException {
@@ -82,7 +98,7 @@ public class IntegrationServiceImpl implements IntegrationService {
      */
     private Map<String, Rate> filterRelevantRates(List<Rate> rateList) {
         return rateList.stream()
-                .filter(rate -> USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()))
+                .filter(rate -> USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()) || EUR.equals(rate.getTitle()))
                 .collect(Collectors.toMap(Rate::getTitle, rate -> rate));
     }
 

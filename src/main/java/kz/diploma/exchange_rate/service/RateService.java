@@ -1,5 +1,6 @@
 package kz.diploma.exchange_rate.service;
 
+import kz.diploma.exchange_rate.dto.Rate;
 import kz.diploma.exchange_rate.entity.RateEntity;
 
 import java.time.LocalDate;
@@ -13,4 +14,10 @@ public interface RateService {
     void save(RateEntity rateEntity);
 
     List<RateEntity> findTop(int count);
+
+    void saveAll(List<RateEntity> list);
+
+    RateEntity updateByDate(LocalDate date, Rate rate);
+
+    List<RateEntity> findAllByCreatedDateIn (List<LocalDate> dates);
 }

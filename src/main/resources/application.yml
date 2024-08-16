@@ -1,6 +1,7 @@
 server:
-  port: 8080
+  port: 8090
 spring:
+
   data:
     mongodb:
       database: exchange_rate
@@ -15,7 +16,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
 integration:
   url: https://nationalbank.kz/rss/get_rates.cfm
 

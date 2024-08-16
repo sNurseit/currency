@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static kz.diploma.exchange_rate.util.Constants.*;
+
 @Converter(autoApply = true)
 public class MapToStringConverter implements AttributeConverter<Map<String, Object>, String> {
 
@@ -20,7 +22,7 @@ public class MapToStringConverter implements AttributeConverter<Map<String, Obje
         try {
             return ObjectMapperUtil.attributeConverterObjectMapper.writeValueAsString(map);
         } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("Error converting map to JSON", e);
+            throw new IllegalArgumentException(CONVERTING_MAP_TO_JSON_ERROR, e);
         }
     }
 
@@ -32,7 +34,7 @@ public class MapToStringConverter implements AttributeConverter<Map<String, Obje
         try {
             return ObjectMapperUtil.attributeConverterObjectMapper.readValue(json, HashMap.class);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Error converting JSON to map", e);
+            throw new IllegalArgumentException(CONVERTING_JSON_TO_MAP_ERROR, e);
         }
     }
 }

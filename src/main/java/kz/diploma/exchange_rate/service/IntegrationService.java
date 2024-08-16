@@ -1,11 +1,10 @@
 package kz.diploma.exchange_rate.service;
 
-import kz.diploma.exchange_rate.dto.Rate;
 import kz.diploma.exchange_rate.entity.RateEntity;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.List;
 
 public interface IntegrationService {
-    RateEntity getExchangeRates(LocalDate date);
+    List<RateEntity> getExchangeRates(LocalDate startDate, LocalDate endDate);
 }

@@ -21,7 +21,7 @@ public class RateScheduler {
     @Scheduled(cron = "0 0 5 * * ?", zone = "GMT+5")
     void schedulerForSmsMonitoring() {
         log.info("Cron started");
-        integrationService.getExchangeRates(null);
+        integrationService.getExchangeRates(null, null);
         log.info("Cron ended");
     }
 }
