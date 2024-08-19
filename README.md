@@ -10,4 +10,4 @@ Create the database using pgadmin (or other app tool).
 Configure the data in application.yml.
 Finally,Run the project in the development environment.
 
-Open your browser and enter following URL : http://localhost:8090/swagger-ui/index.html#/ Before checking other controllers make a request to exchange controller.
+Open your browser and enter following URL : http://localhost:8090/swagger-ui/index.html#/ Before checking other controllers make a request to itegration controller.
