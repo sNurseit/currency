@@ -7,6 +7,7 @@ import kz.diploma.exchange_rate.entity.RateEntity;
 import kz.diploma.exchange_rate.service.HelperService;
 import kz.diploma.exchange_rate.service.IntegrationService;
 import kz.diploma.exchange_rate.service.RateService;
+import kz.diploma.exchange_rate.util.Currency;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -102,7 +104,9 @@ public class IntegrationServiceImpl implements IntegrationService {
      */
     private Map<String, Rate> filterRelevantRates(List<Rate> rateList) {
         return rateList.stream()
-                .filter(rate -> USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()) || EUR.equals(rate.getTitle()))
+                .filter(rate -> Arrays.stream(Currency.values())
+                        .map(currency -> currency.label)
+                        .anyMatch(label -> label.equals(rate.getTitle())))
                 .collect(Collectors.toMap(Rate::getTitle, rate -> rate));
     }
 

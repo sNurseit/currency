@@ -4,6 +4,7 @@ import kz.diploma.exchange_rate.dto.Rate;
 import kz.diploma.exchange_rate.entity.RateEntity;
 import kz.diploma.exchange_rate.repository.RateRepository;
 import kz.diploma.exchange_rate.service.RateService;
+import kz.diploma.exchange_rate.util.Currency;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static kz.diploma.exchange_rate.util.Constants.*;
@@ -54,7 +56,9 @@ public class RateServiceImpl implements RateService {
     public RateEntity updateByDate(LocalDate date, Rate rate) {
         RateEntity rateInDb = repository.findById(date)
                 .orElseThrow( () -> new IllegalArgumentException (DATA_NOT_FOUND_IN_DB));
-        if( !(USD.equals(rate.getTitle()) || RUB.equals(rate.getTitle()) || EUR.equals(rate.getTitle()) ) ){
+        if(Arrays.stream(Currency.values())
+                .map(currency -> currency.label)
+                .noneMatch(label -> label.equals(rate.getTitle()))){
             throw new IllegalArgumentException (INCORRECT_RATE_TITLE_ERROR);
         }
         rateInDb.getRate().put(rate.getTitle(), rate);
